@@ -2,13 +2,22 @@ from turtle import color
 import pyglet
 
 import generator as gen
-scale = 50
+scale = 70
 lineWidth = 1
 window = pyglet.window.Window(1600, 900)
 size = 12
 cells = gen.generateMaze(gen.generateGrid(size))
-gen.solveMaze(cells,0)
+startPosition = 0
+gen.solveMaze(cells,startPosition)
 solution = gen.mazesolution
+carImage = pyglet.image.load('images/car_small.png')
+carPosition = gen.getCellCoords(cells[startPosition], scale, size)
+carImage.anchor_x = carImage.width // 2
+carImage.anchor_y = carImage.height // 2
+carSprite = pyglet.sprite.Sprite(x=carPosition[0], y=carPosition[1], img=carImage)
+
+
+
 @window.event
 def on_draw():
     window.clear()
@@ -16,7 +25,7 @@ def on_draw():
         text = pyglet.text.Label(str(gen.getCellIndex(cell)),
                           font_name='Times New Roman',
                           font_size=10,
-                          color=(255 if gen.getCellIndex(cell) in solution else 50, 50, 30, 255), 
+                          color=(255 if gen.getCellIndex(cell) in solution else 50, 50, 30, 150), 
                           x=gen.getCellCoords(cell, scale, size)[0], y=gen.getCellCoords(cell, scale, size)[1],
                           anchor_x='center', anchor_y='center')
         text.draw()
@@ -36,6 +45,7 @@ def on_draw():
             if index != len(solution) - 1 :
                 currentLine = pyglet.shapes.Line(gen.getCellCoords(cells[solutionElement], scale, size)[0], gen.getCellCoords(cells[solutionElement], scale, size)[1], gen.getCellCoords(cells[solution[index + 1]], scale, size)[0], gen.getCellCoords(cells[solution[index + 1]], scale, size)[1], lineWidth, color = (255, 100, 100))
                 currentLine.draw()
+        carSprite.draw()
 
 
 pyglet.app.run()

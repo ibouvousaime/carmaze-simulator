@@ -234,14 +234,6 @@ def getPathToDestination(tree, currentList = []):
 
 
 
-def solveMazeContainer(cells, startCellIndex, destination):
-    glist = []
-    glist = solveMaze(cells, startCellIndex, glist, destination)
-    return glist
-
-def addToGlobalSolutionList(glist, currentElement, newList) :
-    return glist
-
 mazesolution = []
 def solveMaze(cells, startCellIndex, stack = None, destination = -1 ):
     global mazesolution
